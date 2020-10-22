@@ -1,0 +1,14 @@
+---
+custom_endpoints:
+  - "ai.konduit.IrisEndPoints"
+host: "localhost"
+port: 0
+protocol: "HTTP"
+pipeline:
+  steps:
+  - '@type': "ONNX"
+    modelUri: "iris.onnx"
+    inputNames:
+    - "input"
+    outputNames:
+    - "output"

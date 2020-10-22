@@ -1,0 +1,43 @@
+---
+host: "0.0.0.0"
+pipeline:
+  steps:
+  - '@type': "PYTHON"
+    python_config:
+      append_type: "BEFORE"
+      extra_inputs: {}
+      import_code_path: "init_script.py"
+      python_code_path: "run_script.py"
+      io_inputs:
+        sepal_length:
+          python_type: "float"
+          secondary_type: "NONE"
+          type: "DOUBLE"
+        sepal_width:
+          python_type: "float"
+          secondary_type: "NONE"
+          type: "DOUBLE"
+        petal_length:
+          python_type: "float"
+          secondary_type: "NONE"
+          type: "DOUBLE"
+        petal_width:
+          python_type: "float"
+          secondary_type: "NONE"
+          type: "DOUBLE"
+      io_outputs:
+        output:
+          python_type: "int"
+          secondary_type: "NONE"
+          type: "INT64"
+      job_suffix: "konduit_job"
+      python_config_type: "CONDA"
+      python_path: "1"
+      environment_name: "py37"
+      python_path_resolution: "STATIC"
+      python_inputs: {}
+      python_outputs: {}
+      return_all_inputs: false
+      setup_and_run: false
+port: 8082
+protocol: "HTTP"

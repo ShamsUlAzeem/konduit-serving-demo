@@ -1,0 +1,5 @@
+print(sepal_length, sepal_width, petal_length, petal_width)
+input = torch.tensor([sepal_length, sepal_width, petal_length, petal_width])
+predict_out = net(test_X)
+_, predict_y = torch.max(predict_out, 1)
+output = predict_y.data[0].item()
