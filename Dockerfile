@@ -8,10 +8,11 @@ ADD bin /root/konduit/bin
 ADD konduit.jar /root/konduit/konduit.jar
 ADD docs.md /root/konduit/docs.md
 
-RUN /opt/conda/bin/conda activate base
+RUN . /opt/conda/bin/activate base
 
 RUN conda config --env --add pinned_packages 'openjdk<8.0.265' && \
-    conda install -y -c conda-forge jupyterlab beakerx && \
+    conda config --env --add pinned_packages 'nodejs>=10.0.0' && \
+    conda install -y -c conda-forge jupyterlab beakerx nodejs && \
     jupyter labextension install @jupyter-widgets/jupyterlab-manager && \
     jupyter labextension install beakerx-jupyterlab
 

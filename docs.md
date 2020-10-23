@@ -63,9 +63,6 @@ Following is an example of a multi-step machine learning pipeline through kondui
 
 The above configuration converts an image file sent to the server into a 28x28 n-dimensional array and logs the output to the console and then passes it to an ONNX model for final output.
 
-## Konduit CLI
-A user friendly command line interface to interact with konduit-serving. Convenient to be used for launching deployments, predicting outputs, inspecting servers and stopping them.
-
 ## Supported model types
  
 ### ONNX
@@ -88,6 +85,14 @@ Predictive Model Markup Language also a platform interchange format for mostly a
 ### Custom models
 Through custom Python or Java code
 
+### Other step types
+- Logging (for logging the data that's passing through a pipeline)
+- Image_to_ndarray (for converting image data to desired n-dimensional array)
+- Camera (for taking input from a webcam)
+- ShowImage (for showing image output)
+- Video (for taking input from a video file)
+- Others 
+
 # How konduit-serving will be used?
 - For users who want to host their machine learning model and code to production
 - Packaging and distribution platform for apps (marketplace)
@@ -102,6 +107,8 @@ Through custom Python or Java code
 - Cloud hosting of models (konduit-serving on cloud)
 
 # KONDUIT SERVING CLI
+A user friendly command line interface to interact with konduit-serving. Convenient to be used for launching deployments, predicting outputs, inspecting servers and stopping them.
+
 The most used commands are:
 - config (for creating boilerplate configurations)
 - serve (for creating and running the server)
@@ -227,3 +234,22 @@ public class IrisEndPoints implements HttpEndpoints {
 
 This can be set inside the configuration through the key of `custom_endpoints` as: `custom_endpoints: [ "ai.konduit.IrisEndPoints" ]` 
 For resolving the new code, the compiled code can be sent as an extra classpaths to the konduit-serving server.
+
+# Packaging 
+We can make custom builds through the konduit-serving `build` cli command. Example of the custom builds are:
+- HTTP (REST) server on x86 Windows (CPU), packaged as a stand-alone .exe
+- HTTP and GRPC server on CUDA 10.2 + Linux, packaged as a docker image
+
+Build command is useful for creating minimal packages that can be distributed for different purposes. 
+
+The typical format for running the `build` command would look like this: 
+`konduit build` 
+
+```
+konduit build --arch x86,armhf,ppc64le --modules onnx,python,tensorflow,dl4j --serverTypes http,grpc --config jar.outputdir=output,jar.name=aurora.jar
+```
+
+## Upcoming Support
+```
+konduit build --arch CPU,aurora --modules onnx,python,tensorflow,dl4j --serverTypes http,grpc --config jar.outputdir=output,jar.name=aurora.jar
+```

@@ -25,7 +25,7 @@ pipeline:
       job_suffix: "konduit_job"
       python_config_type: "CONDA"
       python_path: "1"
-      environment_name: "py37"
+      environment_name: "base"
       python_path_resolution: "STATIC"
       python_inputs: {}
       python_outputs: {}
