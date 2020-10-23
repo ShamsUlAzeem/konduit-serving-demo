@@ -30,7 +30,7 @@
       "log" : "KEYS_AND_VALUES"
     }, {
       "@type" : "ONNX",
-      "modelUri" : "mnist-8.onnx",
+      "modelUri" : "mnist.onnx",
       "inputNames" : [ "Input3" ],
       "outputNames" : [ "Plus214_Output_0" ]
     } ]

@@ -1,4 +1,4 @@
-# KONDUIT-SERVING DOCS
+# KONDUIT-SERVING 
 
 # What is konduit-serving?
 In a nutshell konduit-serving is a system for deploying machine learning models pipelines of nearly any type to production. 
@@ -11,7 +11,36 @@ Pipelines are deployed and defined by JSON/YAML or a command line interface.
 In other words, a machine learning deployment (which contains models and optional code). The main logic of a pipeline is to have output of one step being sent as an input to the next step. Finally, output of the last step will be returned as an output to the user.
 A typical pipeline may look like: 
 - preprocess input -> pass it to the model -> output
-
+```json
+{ 
+  "steps" : [ {
+      "@type" : "IMAGE_TO_NDARRAY",
+      "config" : {
+        "height" : 28,
+        "width" : 28,
+        "dataType" : "FLOAT",
+        "includeMinibatchDim" : true,
+        "aspectRatioHandling" : "CENTER_CROP",
+        "format" : "CHANNELS_FIRST",
+        "channelLayout" : "GRAYSCALE",
+        "normalization" : {
+          "type" : "SCALE"
+        },
+        "listHandling" : "NONE"
+      },
+      "keys" : [ "image" ],
+      "outputNames" : [ "Input3" ],
+      "keepOtherValues" : true,
+      "metadata" : false,
+      "metadataKey" : "@ImageToNDArrayStepMetadata"
+    }, {
+      "@type" : "ONNX",
+      "modelUri" : "mnist-8.onnx",
+      "inputNames" : [ "Input3" ],
+      "outputNames" : [ "Plus214_Output_0" ]
+    } ] 
+}
+```
 ## Pipeline Step
 A pipeline step is a single component of a whole machine learning pipeline. Configurations are done through individual pipeline steps.
 ```json

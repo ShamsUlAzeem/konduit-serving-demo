@@ -1,1 +1,1 @@
-docker build --tag nec-docker:1.2 .
+docker build --tag nec-docker:1.4 .
