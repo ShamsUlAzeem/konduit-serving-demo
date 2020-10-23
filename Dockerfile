@@ -14,7 +14,10 @@ RUN conda config --env --add pinned_packages 'openjdk<8.0.265' && \
     conda config --env --add pinned_packages 'nodejs>=10.0.0' && \
     conda install -y -c conda-forge jupyterlab beakerx nodejs && \
     jupyter labextension install @jupyter-widgets/jupyterlab-manager && \
-    jupyter labextension install beakerx-jupyterlab
+    jupyter labextension install beakerx-jupyterlab && \
+    pip install onnx onnxruntime
+
+RUN apt install -y procps
 
 CMD ["/bin/bash"]
 

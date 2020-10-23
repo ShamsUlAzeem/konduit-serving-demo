@@ -14,6 +14,14 @@ A typical pipeline may look like:
 
 ## Pipeline Step
 A pipeline step is a single component of a whole machine learning pipeline. Configurations are done through individual pipeline steps.
+```json
+{
+  "@type" : "ONNX",
+  "modelUri" : "mnist-8.onnx",
+  "inputNames" : [ "Input3" ],
+  "outputNames" : [ "Plus214_Output_0" ]
+}
+```
 
 ## Configuration
 JSON/YAML formatted data which defines a pipeline which could be model plus code and also contains server configuration as to what type of server to use and which host and post to use to run the server on.
@@ -87,7 +95,37 @@ Through custom Python or Java code
 
 ### Other step types
 - Logging (for logging the data that's passing through a pipeline)
+```json
+{
+  "@type" : "LOGGING",
+  "logLevel" : "INFO",
+  "log" : "KEYS_AND_VALUES"
+}
+```
 - Image_to_ndarray (for converting image data to desired n-dimensional array)
+```json
+ {
+  "@type" : "IMAGE_TO_NDARRAY",
+  "config" : {
+    "height" : 100,
+    "width" : 100,
+    "dataType" : "FLOAT",
+    "includeMinibatchDim" : true,
+    "aspectRatioHandling" : "CENTER_CROP",
+    "format" : "CHANNELS_FIRST",
+    "channelLayout" : "RGB",
+    "normalization" : {
+      "type" : "SCALE"
+    },
+    "listHandling" : "NONE"
+  },
+  "keys" : [ "key1", "key2" ],
+  "outputNames" : [ "output1", "output2" ],
+  "keepOtherValues" : true,
+  "metadata" : false,
+  "metadataKey" : "@ImageToNDArrayStepMetadata"
+}
+```
 - Camera (for taking input from a webcam)
 - ShowImage (for showing image output)
 - Video (for taking input from a video file)
@@ -111,12 +149,44 @@ A user friendly command line interface to interact with konduit-serving. Conveni
 
 The most used commands are:
 - config (for creating boilerplate configurations)
+```bash
+- Saves 'dl4j -> logging' config in a 'config.json' file:
+$ konduit config -p dl4j,logging -o config.json
+```
 - serve (for creating and running the server)
+```bash
+- Starts a server in the foreground with an id of 'inf_server' using
+'config.json' as configuration file:
+$ konduit serve -id inf_server -c config.json
+```
 - stop (for stopping the server)
+```bash
+- Stops the server with an id of 'inf_server':
+$ konduit stop inf_server
+```
 - list (lists the current running servers)
+```bash
+- Lists all the running servers
+$ konduit list
+```
 - logs (shows logs for a particular server)
+```bash
+- Outputs and tail the log file contents of server with an id of 'inf_server'
+  from the last 10 lines:
+$ konduit logs inf_server -l 10 -f
+```
 - inspect (for inspecting configuration of a particular server such as host port or number of steps)
+```bash
+- Queries the inference configuration of server with an id of 'inf_server'
+  based on the given pattern and gives output similar to
+  'localhost:45223-{<pipeline_details>}'. The curly brackets can be escaped.
+$ konduit inspect inf_server -q {host}:{port}-\{{pipeline}\}
+```
 - pythonpaths (for finding out the installed python binaries in the current server)
+```bash
+- Lists all the installed and registered CONDA python binaries:
+$ konduit pythonpaths list --type CONDA
+```
 
 # Support for custom REST Endpoints
 Custom rest endpoints can be defined through Java code (which can be easily created through jupyter). The following parameters should be defined for a custom endpoint definition:
@@ -246,10 +316,10 @@ The typical format for running the `build` command would look like this:
 `konduit build` 
 
 ```
-konduit build --arch x86,armhf,ppc64le --modules onnx,python,tensorflow,dl4j --serverTypes http,grpc --config jar.outputdir=output,jar.name=aurora.jar
+konduit build --arch x86,armhf,ppc64le --modules onnx,python,tensorflow,dl4j --serverTypes http,grpc --config jar.outputdir=output,jar.name=konduit-linux.jar --os linux --deploymentType UBERJAR
 ```
 
 ## Upcoming Support
 ```
-konduit build --arch CPU,aurora --modules onnx,python,tensorflow,dl4j --serverTypes http,grpc --config jar.outputdir=output,jar.name=aurora.jar
+konduit build --arch CPU,aurora --modules onnx,python,tensorflow,dl4j --serverTypes http,grpc --config jar.outputdir=output,jar.name=konduit-aurora.jar --os linux --deploymentType UBERJAR
 ```
