@@ -7,6 +7,25 @@ Pipelines are deployed and defined by JSON/YAML or a command line interface.
 
 # KEY CONCEPTS
 
+# Packaging 
+We can make custom builds through the konduit-serving `build` cli command. Example of the custom builds are:
+- HTTP (REST) server on x86 Windows (CPU), packaged as a stand-alone .exe
+- HTTP and GRPC server on CUDA 10.2 + Linux, packaged as a docker image
+
+Build command is useful for creating minimal packages that can be distributed for different purposes. 
+
+The typical format for running the `build` command would look like this: 
+`konduit build` 
+
+```bash
+konduit build --arch x86 --modules python,deeplearning4j --serverType http,grpc --config jar.outputdir=output,jar.name=build-linux.jar --os linux --deploymentType JAR --pipeline config.json
+```
+
+## Upcoming Support
+```bash
+konduit build --arch aurora --modules python,deeplearning4j --serverType http,grpc --config jar.outputdir=output,jar.name=build-aurora.jar --os linux --deploymentType JAR --pipeline config.json
+```
+
 ## Pipeline 
 In other words, a machine learning deployment (which contains models and optional code). The main logic of a pipeline is to have output of one step being sent as an input to the next step. Finally, output of the last step will be returned as an output to the user.
 A typical pipeline may look like: 
@@ -334,21 +353,3 @@ public class IrisEndPoints implements HttpEndpoints {
 This can be set inside the configuration through the key of `custom_endpoints` as: `custom_endpoints: [ "ai.konduit.IrisEndPoints" ]` 
 For resolving the new code, the compiled code can be sent as an extra classpaths to the konduit-serving server.
 
-# Packaging 
-We can make custom builds through the konduit-serving `build` cli command. Example of the custom builds are:
-- HTTP (REST) server on x86 Windows (CPU), packaged as a stand-alone .exe
-- HTTP and GRPC server on CUDA 10.2 + Linux, packaged as a docker image
-
-Build command is useful for creating minimal packages that can be distributed for different purposes. 
-
-The typical format for running the `build` command would look like this: 
-`konduit build` 
-
-```
-konduit build --arch x86,armhf,ppc64le --modules onnx,python,tensorflow,dl4j --serverTypes http,grpc --config jar.outputdir=output,jar.name=konduit-linux.jar --os linux --deploymentType UBERJAR
-```
-
-## Upcoming Support
-```
-konduit build --arch CPU,aurora --modules onnx,python,tensorflow,dl4j --serverTypes http,grpc --config jar.outputdir=output,jar.name=konduit-aurora.jar --os linux --deploymentType UBERJAR
-```
