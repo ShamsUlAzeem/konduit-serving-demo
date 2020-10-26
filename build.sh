@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-docker build --tag nec-docker:1.4 .
+docker build --tag konduitai/demo:1.0 .
