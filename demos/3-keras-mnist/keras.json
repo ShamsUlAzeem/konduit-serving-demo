@@ -29,8 +29,8 @@
       "logLevel" : "INFO",
       "log" : "KEYS_AND_VALUES"
     }, {
-      "@type" : "TENSORFLOW",
-      "modelUri" : "tensorflow/saved_model.pb",
+      "@type" : "KERAS",
+      "modelUri" : "keras.h5",
       "inputNames" : [ "input_layer" ],
       "outputNames" : [ "output_layer" ]
     } ]

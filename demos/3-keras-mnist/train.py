@@ -47,5 +47,5 @@ def train(epochs=8):
     return model
 
 
-train(8).save("tensorflow", save_format="tf")
+train(8).save("keras.h5", save_format="h5")
 
