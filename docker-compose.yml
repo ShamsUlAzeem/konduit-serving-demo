@@ -1,0 +1,39 @@
+version: '3.7'
+
+services:
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    depends_on:
+      - prometheus
+    ports:
+      - "3000:3000"
+    env_file:
+      - 'compose/env.grafana'
+    user: "0"
+    volumes:
+      - ./compose/data-grafana/:/var/lib/grafana
+      - ./compose/conf-grafana/:/etc/grafana/provisioning/
+
+  prometheus:
+    image: prom/prometheus:v2.5.0
+    volumes:
+      - ./compose/data-prometheus/:/etc/prometheus/
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+    ports:
+      - "9090:9090"
+
+  konduit-demo:
+     image:  konduitai/demo:1.1
+     ports:
+       - "8889:8889"
+     depends_on:
+       - prometheus
+     command:
+       - /bin/bash
+       - -c
+       - export PATH=/opt/conda/bin:/root/konduit/bin:$$PATH && . activate base && jupyter notebook --notebook-dir=/root/konduit --ip='*' --port=8889 --no-browser --allow-root

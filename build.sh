@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-docker build --tag konduitai/demo:1.0 .
+docker build --tag konduitai/demo:1.1 .
