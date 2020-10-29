@@ -29,7 +29,7 @@ services:
       - "9090:9090"
 
   konduit-demo:
-     image:  konduitai/demo:1.1
+     image: konduit/konduit-serving-demo:metrics
      ports:
        - "8889:8889"
        - "9008:9008"
