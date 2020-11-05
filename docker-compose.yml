@@ -29,7 +29,7 @@ services:
       - "9090:9090"
 
   konduit-demo:
-     image: konduit/konduit-serving-demo:metrics
+     image: konduit/konduit-serving-demo:gpu
      ports:
        - "8889:8889"
        - "9008:9008"
