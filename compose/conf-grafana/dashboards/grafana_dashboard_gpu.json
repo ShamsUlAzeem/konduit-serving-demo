@@ -2,7 +2,6 @@
   "annotations": {
     "list": [
       {
-        "$$hashKey": "object:7",
         "builtIn": 1,
         "datasource": "-- Grafana --",
         "enable": true,
@@ -55,12 +54,10 @@
       "mappingType": 1,
       "mappingTypes": [
         {
-          "$$hashKey": "object:3793",
           "name": "value to text",
           "value": 1
         },
         {
-          "$$hashKey": "object:3794",
           "name": "range to text",
           "value": 2
         }
@@ -106,7 +103,6 @@
       "valueFontSize": "200%",
       "valueMaps": [
         {
-          "$$hashKey": "object:3796",
           "op": "=",
           "text": "N/A",
           "value": "null"
@@ -634,12 +630,10 @@
       "mappingType": 1,
       "mappingTypes": [
         {
-          "$$hashKey": "object:2280",
           "name": "value to text",
           "value": 1
         },
         {
-          "$$hashKey": "object:2281",
           "name": "range to text",
           "value": 2
         }
@@ -685,7 +679,6 @@
       "valueFontSize": "80%",
       "valueMaps": [
         {
-          "$$hashKey": "object:2283",
           "op": "=",
           "text": "N/A",
           "value": "null"
@@ -824,7 +817,6 @@
       },
       "yaxes": [
         {
-          "$$hashKey": "object:2100",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -833,7 +825,6 @@
           "show": true
         },
         {
-          "$$hashKey": "object:2101",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -1065,7 +1056,7 @@
       "pluginVersion": "7.3.1",
       "targets": [
         {
-          "expr": "rate(requests_handled_total[5m])",
+          "expr": "rate(requests_handled_total[5s])",
           "interval": "",
           "legendFormat": "Rate of Inference",
           "refId": "A"
@@ -1113,12 +1104,10 @@
       "mappingType": 1,
       "mappingTypes": [
         {
-          "$$hashKey": "object:3793",
           "name": "value to text",
           "value": 1
         },
         {
-          "$$hashKey": "object:3794",
           "name": "range to text",
           "value": 2
         }
@@ -1164,7 +1153,6 @@
       "valueFontSize": "200%",
       "valueMaps": [
         {
-          "$$hashKey": "object:3796",
           "op": "=",
           "text": "N/A",
           "value": "null"
@@ -1303,7 +1291,6 @@
       },
       "yaxes": [
         {
-          "$$hashKey": "object:2100",
           "format": "short",
           "label": null,
           "logBase": 2,
@@ -1312,7 +1299,6 @@
           "show": true
         },
         {
-          "$$hashKey": "object:2101",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -1464,7 +1450,6 @@
       },
       "yaxes": [
         {
-          "$$hashKey": "object:280",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -1473,7 +1458,6 @@
           "show": true
         },
         {
-          "$$hashKey": "object:281",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -1614,7 +1598,7 @@
       "type": "bargauge"
     }
   ],
-  "refresh": "",
+  "refresh": "5s",
   "schemaVersion": 26,
   "style": "dark",
   "tags": [],
@@ -1651,7 +1635,7 @@
     ]
   },
   "timezone": "",
-  "title": "Pipeline Metrics",
+  "title": "Pipeline Metrics (GPU)",
   "uid": "lP_JcnHWz-local",
-  "version": 5
+  "version": 6
 }
