@@ -1,2 +1,4 @@
 *.jar
 .ipynb_checkpoints
+*.log
+classpath
