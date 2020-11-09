@@ -29,7 +29,10 @@ services:
       - "9090:9090"
 
   konduit-demo:
-     image: konduit/konduit-serving-demo:gpu
+     runtime: nvidia
+     environment:
+       - NVIDIA_VISIBLE_DEVICES=all
+     image: konduitai/demo:gpu
      ports:
        - "8889:8889"
        - "9008:9008"

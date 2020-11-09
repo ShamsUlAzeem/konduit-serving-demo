@@ -1,1 +1,1 @@
-docker build --no-cache --tag konduitai/demo:gpu .
+docker build --tag konduitai/demo:gpu .
