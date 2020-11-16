@@ -2,33 +2,37 @@ import numpy as np
 import cv2
 import requests
 
+width = 1280
+height = 720
+out_width = 160
+out_height = 120
+
 cap = cv2.VideoCapture(0)
-cap.set(cv2.CAP_PROP_FRAME_WIDTH, 320)  # set Width
-cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 240)  # set Height
+cap.set(cv2.CAP_PROP_FRAME_WIDTH, width)  # set Width
+cap.set(cv2.CAP_PROP_FRAME_HEIGHT, height)  # set Height
 font = cv2.FONT_HERSHEY_DUPLEX
 
 url = 'http://localhost:8082/infer'
-output_image_name = "out_image.jpg"
 while True:
     ret, orig_image = cap.read()
-    cv2.imwrite(output_image_name, orig_image)
+    imencoded = cv2.imencode(".jpg", cv2.resize(orig_image, (out_width, out_height)))[1]
 
-    files = {'image': open(output_image_name, 'rb')}
+    files = {'image': ('image.jpg', imencoded.tostring(), 'image/jpeg', {'Expires': '0'})}
     response = requests.post(url, files=files).json()
     print(response)
 
     boxes = np.asarray([response['boxes']])
-    if len(boxes) == 0:
+    if len(boxes[0]) == 0:
         continue
 
     box = boxes[0]
     out_size = 112
     img = orig_image.copy()
     height, width, _ = img.shape
-    x1 = box[0]
-    y1 = box[1]
-    x2 = box[2]
-    y2 = box[3]
+    x1 = box[0] * width / out_width
+    y1 = box[1] * height / out_height
+    x2 = box[2] * width / out_width
+    y2 = box[3] * height / out_height
     x1 = int(x1 - 0.1 * x1)
     y1 = int(y1 - 0.1 * y1)
     x2 = int(x2 + 0.1 * x2)
