@@ -1,0 +1,42 @@
+---
+host: "0.0.0.0"
+custom_endpoints:
+  - "ai.konduit.OCREndPoints"
+pipeline:
+  steps:
+  - '@type': "PYTHON"
+    python_config:
+      append_type: "BEFORE"
+      extra_inputs: {}
+      import_code_path: "init_script.py"
+      python_code_path: "run_script.py"
+      io_inputs:
+        image:
+          python_type: "image"
+          secondary_type: "NONE"
+          type: "IMAGE"
+
+      io_outputs:
+        bmi_value:
+          python_type: "float"
+          secondary_type: "NONE"
+          type: "DOUBLE"
+        bmi_class:
+          python_type: "str"
+          secondary_type: "NONE"
+          type: "STRING"
+        boxes:
+          python_type: "list"
+          secondary_type: "DOUBLE"
+          type: "LIST"
+      job_suffix: "konduit_job"
+      python_config_type: "CONDA"
+      python_path: "1"
+      environment_name: "beakerx"
+      python_path_resolution: "STATIC"
+      python_inputs: {}
+      python_outputs: {}
+      return_all_inputs: false
+      setup_and_run: false
+port: 8082
+protocol: "HTTP"
