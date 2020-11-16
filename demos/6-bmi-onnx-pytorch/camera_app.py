@@ -1,6 +1,5 @@
 import numpy as np
 import cv2
-from utils import predict, BBox
 import requests
 
 cap = cv2.VideoCapture(0)
