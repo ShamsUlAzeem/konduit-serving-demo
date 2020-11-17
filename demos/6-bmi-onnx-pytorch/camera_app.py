@@ -4,15 +4,16 @@ import requests
 
 width = 1280
 height = 720
-out_width = 160
-out_height = 120
+out_width = 320
+out_height = 240
 
 cap = cv2.VideoCapture(0)
 cap.set(cv2.CAP_PROP_FRAME_WIDTH, width)  # set Width
 cap.set(cv2.CAP_PROP_FRAME_HEIGHT, height)  # set Height
 font = cv2.FONT_HERSHEY_DUPLEX
 
-url = 'http://localhost:8082/infer'
+url = 'http://202.165.22.140/infer'
+# url = 'http://localhost:8082/infer'
 while True:
     ret, orig_image = cap.read()
     imencoded = cv2.imencode(".jpg", cv2.resize(orig_image, (out_width, out_height)))[1]
