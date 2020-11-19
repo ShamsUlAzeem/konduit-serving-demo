@@ -10,7 +10,7 @@ fps = 1
 camera_index = 0
 
 url = 'http://202.165.22.140/infer'
-url = 'http://localhost:8082/infer'
+# url = 'http://localhost:8082/infer'
 
 cap = cv2.VideoCapture(camera_index)
 cap.set(cv2.CAP_PROP_FRAME_WIDTH, width)  # set Width
@@ -28,13 +28,13 @@ def render_image(index, output):
         return
 
     box = boxes[0]
-
+    out_size = 112
     img = images[index % fps].copy()
     _height, _width, _ = img.shape
-    x1 = box[0]
-    y1 = box[1]
-    x2 = box[2]
-    y2 = box[3]
+    x1 = box[0] * _width / out_width
+    y1 = box[1] * _height / out_height
+    x2 = box[2] * _width / out_width
+    y2 = box[3] * _height / out_height
     x1 = int(x1 - 0.1 * x1)
     y1 = int(y1 - 0.1 * y1)
     x2 = int(x2 + 0.1 * x2)
