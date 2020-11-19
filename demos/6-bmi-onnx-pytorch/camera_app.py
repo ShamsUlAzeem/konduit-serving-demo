@@ -9,7 +9,7 @@ out_height = 240
 fps = 1
 camera_index = 0
 
-url = 'http://202.165.22.140/infer'
+url = 'https://202.165.22.122/infer'
 # url = 'http://localhost:8082/infer'
 
 cap = cv2.VideoCapture(camera_index)
@@ -65,7 +65,7 @@ def send_request(index):
     im_encoded = cv2.imencode(".jpg", cv2.resize(images[index % fps], (out_width, out_height)))[1]
     encoded_string = im_encoded.tostring()
     files = {'image': ('image.jpg', encoded_string, 'image/jpeg', {'Expires': '0'})}
-    response = requests.post(url, files=files).json()
+    response = requests.post(url, files=files, verify=False).json()
     render_image(index, response)
 
 
