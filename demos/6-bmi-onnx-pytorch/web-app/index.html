@@ -12,6 +12,7 @@
 </div>
 <video id="video" width="300" height="225" hidden></video>
 <canvas id="canvasOutput"></canvas>
+<canvas id="canvasOutput2" hidden></canvas>
 <script async src="opencv.js" type="text/javascript" onload="onCvLoaded();"></script>
 <script>
 function onCvLoaded () {
@@ -29,7 +30,7 @@ function onReady () {
     let src;
     let dst;
     const cap = new cv.VideoCapture(video);
-    const canvas = document.getElementById('canvasOutput');
+    const canvas = document.getElementById('canvasOutput2');
 
     actionBtn.addEventListener('click', () => {
         if (streaming) {
@@ -102,7 +103,7 @@ function onReady () {
 
         //cv.rectangle(src, new cv.Point(10, 10), new cv.Point(100, 100), new cv.Scalar(255, 0, 0, 255), 2)
 
-        cv.imshow('canvasOutput', src);
+        cv.imshow('canvasOutput2', src);
         let base64Image = canvas.toDataURL('image/jpeg', 1.0);//.replace("data:image/png;base64,", "");
         //console.log(base64Image);
 

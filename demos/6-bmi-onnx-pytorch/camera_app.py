@@ -2,6 +2,8 @@ import numpy as np
 import cv2
 import requests
 
+from urllib3.exceptions import InsecureRequestWarning
+
 width = 1280
 height = 720
 out_width = 320
@@ -17,6 +19,9 @@ cap.set(cv2.CAP_PROP_FRAME_WIDTH, width)  # set Width
 cap.set(cv2.CAP_PROP_FRAME_HEIGHT, height)  # set Height
 cap.set(cv2.CAP_PROP_FPS, fps)
 font = cv2.FONT_HERSHEY_DUPLEX
+
+# Suppress only the single warning from urllib3 needed.
+requests.packages.urllib3.disable_warnings(category=InsecureRequestWarning)
 
 images = [0 for i in range(fps)]
 
