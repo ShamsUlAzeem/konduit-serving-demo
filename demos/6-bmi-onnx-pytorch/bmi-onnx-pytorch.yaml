@@ -15,7 +15,6 @@ pipeline:
           python_type: "image"
           secondary_type: "NONE"
           type: "IMAGE"
-
       io_outputs:
         bmi_value:
           python_type: "float"
@@ -32,7 +31,7 @@ pipeline:
       job_suffix: "konduit_job"
       python_config_type: "CONDA"
       python_path: "1"
-      environment_name: "beakerx"
+      environment_name: "py37"
       python_path_resolution: "STATIC"
       python_inputs: {}
       python_outputs: {}

@@ -149,9 +149,9 @@ function onReady () {
                 x2 = Math.min(_width, x2);
                 y2 = Math.min(_height, y2);
 
-                cv.rectangle(src, new cv.Point(x1, y1), new cv.Point(x2, y2), new cv.Scalar(255, 0, 0, 255), 2);
-                cv.putText(src, jsonResponse['bmi_class'], new cv.Point(x1 + 5, y1 - 5), 2, 1, new cv.Scalar(255, 0, 0, 255), 2);
-                cv.putText(src, jsonResponse['bmi_value'].toString(), new cv.Point(x1 + 5, y2), 2, 1, new cv.Scalar(255, 0, 0, 255), 1);
+                cv.rectangle(src, new cv.Point(x1, y1), new cv.Point(x2, y2), new cv.Scalar(255, 0, 0, 255), 1);
+                cv.putText(src, jsonResponse['bmi_class'], new cv.Point(x1 + 5, y1 - 5), 1, 1, new cv.Scalar(255, 0, 0, 255), 1);
+                cv.putText(src, jsonResponse['bmi_value'].toString(), new cv.Point(x1 + 5, y2), 1, 1, new cv.Scalar(255, 0, 0, 255), 1);
 
                 cv.imshow('canvasOutput', src)
             }
