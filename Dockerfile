@@ -1,4 +1,4 @@
-FROM continuumio/anaconda3:latest
+FROM ubuntu:20.04
 
 RUN mkdir /root/konduit
 
@@ -8,14 +8,16 @@ ADD conf /root/konduit/conf
 ADD bin /root/konduit/bin
 ADD konduit.jar /root/konduit/konduit.jar
 
-RUN . /opt/conda/bin/activate base
-
-RUN conda config --env --add pinned_packages 'openjdk<8.0.265' && \
-    conda config --env --add pinned_packages 'nodejs>=10.0.0' && \
-    conda install -y -c conda-forge ipywidgets beakerx tensorflow keras pillow && \
-    pip install onnx onnxruntime
-
-RUN apt update && apt install -y procps curl tree && ps -ef && curl --help && tree --help
+RUN apt update && \
+    apt install -y procps curl tree wget less libgl1-mesa-glx libglib2.0-0 && \
+    export PATH=/root/miniconda/bin:$PATH && \
+    wget -q https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh && \
+    bash ~/miniconda.sh -b -p $HOME/miniconda && \
+    conda install -y -c conda-forge -c pytorch pytorch torchvision torchaudio cpuonly python=3.7 openjdk=8 jupyterlab=1.2 beakerx tensorflow keras pillow nodejs=10 && \
+    pip install onnx onnxruntime opencv-python && \
+    jupyter labextension install @jupyter-widgets/jupyterlab-manager && \
+    jupyter labextension install beakerx-jupyterlab && \
+    conda clean --all -y
 
 CMD ["/bin/bash"]
 

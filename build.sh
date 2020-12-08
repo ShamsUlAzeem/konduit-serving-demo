@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 
-docker build --no-cache --tag konduitai/demo:1.1 .
+rm -rf compose/data-grafana/png/
+docker build --tag konduitai/demo:1.1 .

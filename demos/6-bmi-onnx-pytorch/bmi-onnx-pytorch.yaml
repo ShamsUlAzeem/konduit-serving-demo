@@ -1,7 +1,7 @@
 ---
 host: "0.0.0.0"
 custom_endpoints:
-  - "ai.konduit.OCREndPoints"
+  - "ai.konduit.serving.OCREndPoints"
 pipeline:
   steps:
   - '@type': "PYTHON"
@@ -31,7 +31,7 @@ pipeline:
       job_suffix: "konduit_job"
       python_config_type: "CONDA"
       python_path: "1"
-      environment_name: "py37"
+      environment_name: "jlab"
       python_path_resolution: "STATIC"
       python_inputs: {}
       python_outputs: {}
