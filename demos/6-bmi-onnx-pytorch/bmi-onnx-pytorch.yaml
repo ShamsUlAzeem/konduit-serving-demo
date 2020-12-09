@@ -31,11 +31,12 @@ pipeline:
       job_suffix: "konduit_job"
       python_config_type: "CONDA"
       python_path: "1"
-      environment_name: "jlab"
+      environment_name: "base"
       python_path_resolution: "STATIC"
       python_inputs: {}
       python_outputs: {}
       return_all_inputs: false
       setup_and_run: false
-port: 8082
+port: 9008
 protocol: "HTTP"
+
