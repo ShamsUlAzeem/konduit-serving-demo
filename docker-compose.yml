@@ -33,5 +33,7 @@ services:
      ports:
        - "8889:8889"
        - "9008:9008"
+     volumes:
+       - ./demos:/root/konduit/demos
      depends_on:
        - prometheus
