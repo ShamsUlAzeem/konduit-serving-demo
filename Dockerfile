@@ -13,12 +13,16 @@ RUN apt update && \
     wget -q https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh && \
     bash ~/miniconda.sh -b -p $HOME/miniconda && \
     echo "export PATH=/root/miniconda/bin:/root/konduit/bin:\$PATH" >> ~/.profile && \
-    source ~/.profile && \
+    . ~/.profile && \
     conda install -y -c conda-forge -c pytorch pytorch torchvision torchaudio cpuonly python=3.7 openjdk=8 jupyterlab=1.2 beakerx tensorflow keras pillow nodejs=10 && \
     pip install onnx onnxruntime opencv-python && \
-    jupyter labextension install @jupyter-widgets/jupyterlab-manager && \
+    conda clean --all -y && \
+    rm -rf /root/miniconda/pkgs
+
+RUN jupyter labextension install @jupyter-widgets/jupyterlab-manager && \
     jupyter labextension install beakerx-jupyterlab && \
-    conda clean --all -y
+    conda clean --all -y && \
+    rm -rf /root/miniconda/pkgs
 
 CMD ["/bin/bash", "-c", "jupyter lab --notebook-dir=/root/konduit --ip='*' --port=8889 --no-browser --allow-root"]
 
