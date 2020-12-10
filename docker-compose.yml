@@ -30,6 +30,7 @@ services:
 
   konduit-demo:
      image: konduitai/demo:1.1
+     runtime: nvidia
      ports:
        - "8889:8889"
        - "9008:9008"
