@@ -1,6 +1,15 @@
 # Build and Run konduit-serving-demo
 Following are the commands for building and running konduit-serving-demo on different platforms: 
 
+## Pre-requisites
+### Building the Image
+- JDK = 8
+- Maven >= 3.6
+
+### Running the docker
+- Docker >= 19.03.14
+- Docker-Compose >= 1.27.4
+
 ## For Linux and MacOS
 - Build command: `bash build.sh`
 - Run command: `bash run.sh`
