@@ -29,13 +29,11 @@ services:
       - "9090:9090"
 
   konduit-demo:
-     image: konduit/konduit-serving-demo:metrics
+     image: konduitai/demo:1.1
      ports:
        - "8889:8889"
        - "9008:9008"
+     volumes:
+       - ./demos:/root/konduit/demos
      depends_on:
        - prometheus
-     command:
-       - /bin/bash
-       - -c
-       - export PATH=/opt/conda/bin:/root/konduit/bin:$$PATH && . activate base && jupyter notebook --notebook-dir=/root/konduit --ip='*' --port=8889 --no-browser --allow-root

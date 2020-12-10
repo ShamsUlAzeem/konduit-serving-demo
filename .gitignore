@@ -1,3 +1,4 @@
 *.jar
 .ipynb_checkpoints
 classpath
+konduit-serving

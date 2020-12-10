@@ -1,17 +1,21 @@
 <!doctype html>
-<html>
+<html style="background-color: darkgrey">
 <head>
     <title>BMI - Konduit-Serving</title>
     <link href="app.css" rel="stylesheet">
     <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 </head>
 <body>
-<h1>BMI on KONDUIT-SERVING</h1>
-<div>
-    <button id="actionBtn">Start</button>
+<div style="display: flex; justify-content: center">
+    <h1>BMI ON KONDUIT-SERVING</h1>
 </div>
-<video id="video" width="300" height="225" hidden></video>
-<canvas id="canvasOutput"></canvas>
+<div style="display: flex; justify-content: center">
+    <button id="actionBtn" style="width: 640px; height: 100px; font-family: 'Courier New'; font-size: 20px">WAIT APP LOADING ...</button>
+</div>
+<video id="video" width="640" height="480" hidden></video>
+<div class="container" style="display: flex; justify-content: center">
+    <canvas id="canvasOutput"></canvas>
+</div>
 <canvas id="canvasOutput2" hidden></canvas>
 <script async src="opencv.js" type="text/javascript" onload="onCvLoaded();"></script>
 <script>
@@ -21,9 +25,9 @@ function onCvLoaded () {
 }
 const video = document.getElementById('video');
 const actionBtn = document.getElementById('actionBtn');
-const width = 300;
-const height = 225;
-const FPS = 30;
+const width = 640;
+const height = 480;
+const FPS = 15;
 let stream;
 let streaming = false;
 function onReady () {
@@ -35,10 +39,10 @@ function onReady () {
     actionBtn.addEventListener('click', () => {
         if (streaming) {
             stop();
-            actionBtn.textContent = 'Start';
+            actionBtn.textContent = 'START';
         } else {
             start();
-            actionBtn.textContent = 'Stop';
+            actionBtn.textContent = 'STOP';
         }
     });
 
@@ -124,8 +128,8 @@ function onReady () {
             if(jsonResponse['bmi_value'] !== -1) {
                 box = jsonResponse['boxes']
 
-                _height = 300;
-                _width = 225;
+                _height = height;
+                _width = width;
                 x1 = box[0];
                 y1 = box[1];
                 x2 = box[2];
@@ -149,9 +153,9 @@ function onReady () {
                 x2 = Math.min(_width, x2);
                 y2 = Math.min(_height, y2);
 
-                cv.rectangle(src, new cv.Point(x1, y1), new cv.Point(x2, y2), new cv.Scalar(255, 0, 0, 255), 1);
-                cv.putText(src, jsonResponse['bmi_class'], new cv.Point(x1 + 5, y1 - 5), 1, 1, new cv.Scalar(255, 0, 0, 255), 1);
-                cv.putText(src, jsonResponse['bmi_value'].toString(), new cv.Point(x1 + 5, y2), 1, 1, new cv.Scalar(255, 0, 0, 255), 1);
+                cv.rectangle(src, new cv.Point(x1, y1), new cv.Point(x2, y2), new cv.Scalar(255, 0, 0, 255), 2);
+                cv.putText(src, jsonResponse['bmi_class'], new cv.Point(x1 + 5, y1 - 5), 1, 2, new cv.Scalar(255, 0, 0, 255), 2);
+                cv.putText(src, jsonResponse['bmi_value'].toString(), new cv.Point(x1 + 5, y2), 1, 2, new cv.Scalar(255, 0, 0, 255), 2);
 
                 cv.imshow('canvasOutput', src)
             }
@@ -162,6 +166,8 @@ function onReady () {
         const delay = 1000/FPS - (Date.now() - begin);
         setTimeout(processVideo, delay);
     }
+
+    actionBtn.textContent = 'CLICK TO START';
 }
 
 </script>
