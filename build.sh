@@ -60,4 +60,11 @@ else
 fi
 
 rm -rf compose/data-grafana/png/
-docker build --tag konduitai/demo:1.1 .
+
+if [[ $(docker info | grep Runtimes:) == *"nvidia"* ]]; then
+    export IMAGE=nvidia/cuda:11.0-devel-ubuntu20.04
+else
+    export IMAGE=ubuntu:20.04
+fi
+
+docker build --build-arg IMAGE=$IMAGE --build-arg EXTRA_ARGS="--no-install-recommends" --tag konduitai/demo:1.1 .
