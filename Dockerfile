@@ -19,8 +19,9 @@ RUN apt update && \
     conda clean --all -y && \
     rm -rf /root/miniconda/pkgs
 
-RUN jupyter labextension install @jupyter-widgets/jupyterlab-manager && \
-    jupyter labextension install beakerx-jupyterlab
+RUN NODE_OPTIONS=--max_old_space_size=4096 && \
+    jupyter labextension install --minimize=False @jupyter-widgets/jupyterlab-manager && \
+    jupyter labextension install --minimize=False beakerx-jupyterlab
 
 CMD ["/bin/bash", "-c", "jupyter lab --notebook-dir=/root/konduit --ip='*' --port=8889 --no-browser --allow-root"]
 
