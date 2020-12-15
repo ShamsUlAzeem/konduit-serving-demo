@@ -63,10 +63,10 @@ rm -rf compose/data-grafana/png/
 
 if [[ $(docker info | grep Runtimes:) == *"nvidia"* ]]; then
     IMAGE=nvidia/cuda:11.0-devel-ubuntu20.04
-    CONDA_CHIP_INSTALLS="-c pytorch pytorch torchvision torchaudio cudatoolkit=11 tensorflow"
+    CONDA_CHIP_INSTALLS="-c pytorch pytorch=1.7.1 torchvision torchaudio cudatoolkit=11 tensorflow"
 else
     IMAGE=ubuntu:20.04
-    CONDA_CHIP_INSTALLS="-c pytorch pytorch torchvision torchaudio cpuonly tensorflow"
+    CONDA_CHIP_INSTALLS="-c pytorch pytorch=1.7.1 torchvision torchaudio cpuonly tensorflow"
 fi
 
 docker build --build-arg IMAGE=$IMAGE --build-arg CONDA_CHIP_INSTALLS="$CONDA_CHIP_INSTALLS" --tag konduitai/demo:1.1 .
