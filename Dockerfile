@@ -14,10 +14,11 @@ ADD konduit.jar /root/konduit/konduit.jar
 ENV CONDA_CHIP_INSTALLS="$CONDA_CHIP_INSTALLS"
 ENV PATH "/root/miniconda/bin:/root/konduit/bin:$PATH"
 
-RUN apt update
-
-RUN DEBIAN_FRONTEND=noninteractive && \
-    apt install -y --no-install-recommends build-essential htop procps curl tree wget less libgl1-mesa-glx libglib2.0-0 && \
+RUN apt clean && \
+    apt update --fix-missing && \
+    DEBIAN_FRONTEND=noninteractive && \
+    apt install -y --no-install-recommends libglib2.0-0 && \
+    apt install -y build-essential htop procps curl tree wget less libgl1-mesa-glx && \
     wget -q https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh && \
     bash ~/miniconda.sh -b -p $HOME/miniconda && \
     conda install -y -c conda-forge $CONDA_CHIP_INSTALLS python=3.7 openjdk=8 jupyterlab=1.2 beakerx keras pillow nodejs=10 && \
