@@ -69,4 +69,4 @@ else
     CONDA_CHIP_INSTALLS="-c pytorch pytorch=1.7.1 torchvision torchaudio cpuonly tensorflow"
 fi
 
-docker build --build-arg IMAGE=$IMAGE --build-arg CONDA_CHIP_INSTALLS="$CONDA_CHIP_INSTALLS" --tag konduitai/demo:1.1 .
+docker build --build-arg "IMAGE=$IMAGE" --build-arg "CONDA_CHIP_INSTALLS=$CONDA_CHIP_INSTALLS" --tag konduitai/demo:1.1 .

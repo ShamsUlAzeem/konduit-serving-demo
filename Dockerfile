@@ -1,7 +1,10 @@
 ARG IMAGE
-ARG CONDA_CHIP_INSTALLS
 
 FROM ${IMAGE:-ubuntu:20.04}
+
+ARG CONDA_CHIP_INSTALLS
+
+ENV PATH "/root/miniconda/bin:/root/konduit/bin:$PATH"
 
 RUN mkdir /root/konduit
 
@@ -10,9 +13,6 @@ ADD demos /root/konduit/demos
 ADD conf /root/konduit/conf
 ADD bin /root/konduit/bin
 ADD konduit.jar /root/konduit/konduit.jar
-
-ENV CONDA_CHIP_INSTALLS="$CONDA_CHIP_INSTALLS"
-ENV PATH "/root/miniconda/bin:/root/konduit/bin:$PATH"
 
 RUN apt clean && \
     apt update --fix-missing && \
