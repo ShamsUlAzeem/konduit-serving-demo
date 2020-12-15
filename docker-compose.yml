@@ -14,6 +14,7 @@ services:
     volumes:
       - ./compose/data-grafana/:/var/lib/grafana
       - ./compose/conf-grafana/:/etc/grafana/provisioning/
+      - ./compose/conf-grafana/grafana.ini:/etc/grafana/grafana.ini
 
   prometheus:
     image: prom/prometheus:v2.5.0
