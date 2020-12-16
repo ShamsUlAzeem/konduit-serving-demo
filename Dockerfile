@@ -30,5 +30,5 @@ RUN NODE_OPTIONS=--max_old_space_size=4096 && \
     jupyter labextension install --minimize=False @jupyter-widgets/jupyterlab-manager && \
     jupyter labextension install --minimize=False beakerx-jupyterlab
 
-CMD ["/bin/bash", "-c", "jupyter lab --notebook-dir=/root/konduit --ip='*' --port=8889 --no-browser --allow-root"]
+CMD ["/bin/bash", "-c", "jupyter lab --notebook-dir=/root/konduit --ip='*' --port=8889 --no-browser --allow-root --LabApp.terminado_settings='{\"shell_command\": [\"/bin/bash\"]}'"]
 

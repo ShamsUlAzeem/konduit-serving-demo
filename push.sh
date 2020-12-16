@@ -1,9 +1,16 @@
 #!/usr/bin/env bash
 
-docker tag konduitai/demo:1.1 docker.pkg.github.com/konduitai/konduit-serving-demos/quick-start:metrics
+CHIP=$(echo "${1:-CPU}" | awk '{ print tolower($0)}')
 
-docker push docker.pkg.github.com/konduitai/konduit-serving-demos/quick-start:metrics
+if [[ "$CHIP" != "cpu" && "$CHIP" != "gpu" ]]
+then
+    echo "Selected CHIP should be one of [CPU, GPU]"
+    echo "Usage: bash build.sh CPU"
+    echo "Usage with rebuilding JAR file: bash push.sh [CPU|GPU]"
+    exit 1
+fi
 
-docker tag konduitai/demo:1.1 konduit/konduit-serving-demo:metrics
+echo "Pushing for CHIP=$CHIP"
 
-docker push konduit/konduit-serving-demo:metrics
+docker push docker.pkg.github.com/konduitai/konduit-serving-demos/quick-start:"${CHIP}"
+docker push konduit/konduit-serving-demo:"${CHIP}"

@@ -1,13 +1,9 @@
 #!/usr/bin/env bash
 set -e
 
-CHIP=$(echo $1 | awk '{ print toupper($0)}')
-if [[ -z "$CHIP" ]]
-then
-      CHIP=CPU
-fi
+CHIP=$(echo "${1:-CPU}" | awk '{ print toupper($0)}')
 
-if [[ $2 == --rebuild-jar ]]
+if [[ $* == *--rebuild-jar* ]]
 then
     echo "Removing pre-built konduit.jar"
     if [[ -f "konduit.jar" ]]
@@ -19,8 +15,8 @@ fi
 if [[ "$CHIP" != "CPU" && "$CHIP" != "GPU" ]]
 then
     echo "Selected CHIP should be one of [CPU, GPU]"
-    echo "Usage: bash build.sh CPU"
-    echo "Usage with rebuilding JAR file: bash build.sh CPU --rebuild-jar"
+    echo "Usage: bash build.sh [CPU|GPU] [--rebuild-jar]"
+    echo "Example usage with rebuilding JAR file: bash build.sh GPU --rebuild-jar"
     exit 1
 fi
 
@@ -61,7 +57,7 @@ fi
 
 rm -rf compose/data-grafana/png/
 
-if [[ $(docker info | grep Runtimes:) == *"nvidia"* ]]; then
+if [[ "$CHIP" == "GPU" ]]; then
     IMAGE=nvidia/cuda:11.0-devel-ubuntu20.04
     CONDA_CHIP_INSTALLS="-c pytorch pytorch=1.7.1 torchvision torchaudio cudatoolkit=11 tensorflow"
 else
@@ -70,3 +66,11 @@ else
 fi
 
 docker build --build-arg "IMAGE=$IMAGE" --build-arg "CONDA_CHIP_INSTALLS=$CONDA_CHIP_INSTALLS" --tag konduitai/demo:1.1 .
+
+docker tag konduitai/demo:1.1 docker.pkg.github.com/konduitai/konduit-serving-demos/quick-start:"$(echo "${CHIP}" | awk '{ print tolower($0)}')"
+docker tag konduitai/demo:1.1 konduit/konduit-serving-demo:"$(echo "${CHIP}" | awk '{ print tolower($0)}')"
+
+if [[ $* == *--push* ]]
+then
+    bash push.sh "${CHIP}"
+fi
