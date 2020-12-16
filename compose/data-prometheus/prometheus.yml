@@ -24,6 +24,6 @@ scrape_configs:
 
     # metrics_path defaults to '/metrics'
     # scheme defaults to 'http'.
-    metrics_path: '/tensorflow-metrics'
+    metrics_path: '/server-metrics'
     static_configs:
-    - targets: ['konduit-demo:9008']
+    - targets: ['konduit-demo:9008', 'konduit-demo:9009']

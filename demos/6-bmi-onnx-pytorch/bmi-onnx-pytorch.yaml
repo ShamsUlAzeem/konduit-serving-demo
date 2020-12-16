@@ -37,6 +37,6 @@ pipeline:
       python_outputs: {}
       return_all_inputs: false
       setup_and_run: false
-port: 9008
+port: 9009
 protocol: "HTTP"
 
