@@ -24,6 +24,6 @@ scrape_configs:
 
     # metrics_path defaults to '/metrics'
     # scheme defaults to 'http'.
-    metrics_path: '/server-metrics'
+    metrics_path: '/metrics'
     static_configs:
     - targets: ['konduit-demo:9008', 'konduit-demo:9009']

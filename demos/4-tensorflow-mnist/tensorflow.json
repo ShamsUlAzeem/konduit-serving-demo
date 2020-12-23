@@ -1,5 +1,4 @@
 {
-  "customEndpoints": [ "ai.konduit.OCREndPoints" ],
   "host" : "0.0.0.0",
   "port" : 9008,
   "protocol" : "HTTP",
@@ -33,6 +32,11 @@
       "modelUri" : "tensorflow.pb",
       "inputNames" : [ "input_layer" ],
       "outputNames" : [ "output_layer/Softmax" ]
+    }, {
+      "@type" : "CLASSIFIER_OUTPUT",
+      "inputName" : "output_layer/Softmax",
+      "labels" : [ "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" ],
+      "allProbabilities" : false
     } ]
   }
 }

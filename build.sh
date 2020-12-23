@@ -2,6 +2,7 @@
 set -e
 
 CHIP=$(echo "${1:-CPU}" | awk '{ print toupper($0)}')
+BUILD_BRANCH=${BUILD_BRANCH:-master}
 
 if [[ $* == *--rebuild-jar* ]]
 then
@@ -36,7 +37,7 @@ then
     echo "Refreshing codebase"
     git stash
     git fetch 
-    git checkout sa/fixing-build-command
+    git checkout "${BUILD_BRANCH}"
     git pull
 
     echo "Building $CHIP version of konduit-serving..."
@@ -48,8 +49,8 @@ then
         BUILD_PROFILES=-Ppython,uberjar,gpu,intel,cuda-redist
     fi 
 
-    mvn clean install -Dmaven.test.skip=true -Denforcer.skip=true -Djavacpp.platform=linux-x86_64 $BUILD_PROFILES -Ddevice=$CHIP
-    mv konduit-serving-uberjar/target/konduit-serving-uberjar-0.1.0-SNAPSHOT-custom-linux-x86_64-$CHIP.jar ../konduit.jar
+    mvn clean install -Dmaven.test.skip=true -Denforcer.skip=true -Djavacpp.platform=linux-x86_64 $BUILD_PROFILES -Ddevice="$CHIP"
+    mv konduit-serving-uberjar/target/konduit-serving-uberjar-0.1.0-SNAPSHOT-custom-linux-x86_64-"$CHIP".jar ../konduit.jar
     cd ..
 else
     echo "Pre-build konduit-serving distributable JAR file already exists. Continuing with docker build..."

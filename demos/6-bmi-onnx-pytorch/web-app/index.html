@@ -117,8 +117,8 @@ function onReady () {
         formData.append('image', blob, 'image.png');
 
         const request = new XMLHttpRequest();
-        request.open("POST", '/infer', false);
-        //request.setRequestHeader("Content-Type", "application/octet-stream");
+        request.open("POST", '/predict', false);
+        request.setRequestHeader("Accept", "application/json");
         //request.timeout = 2000; // time in milliseconds
         request.send(formData);
 

@@ -101,5 +101,7 @@ if len(boxes) > 0:
         bmi_value = round(prediction2 * (120 - 45) + 45, 2)
 
     boxes = boxes[0].tolist()
+    predictions = np.array([1 if x == prediction[0] else 0 for x in range(8)], dtype=float)
 else:
     boxes = list(boxes)
+    predictions = np.array([0, 0, 0, 0, 0, 0, 0, 1], dtype=float)

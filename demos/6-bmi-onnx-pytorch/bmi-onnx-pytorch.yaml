@@ -1,7 +1,7 @@
 ---
 host: "0.0.0.0"
 custom_endpoints:
-  - "ai.konduit.serving.OCREndPoints"
+  - "ai.konduit.serving.CustomEndpoints"
 pipeline:
   steps:
   - '@type': "PYTHON"
@@ -20,14 +20,14 @@ pipeline:
           python_type: "float"
           secondary_type: "NONE"
           type: "DOUBLE"
-        bmi_class:
-          python_type: "str"
-          secondary_type: "NONE"
-          type: "STRING"
         boxes:
           python_type: "list"
           secondary_type: "DOUBLE"
           type: "LIST"
+        predictions:
+          python_type: "numpy.ndarray"
+          secondary_type: "DOUBLE"
+          type: "NDARRAY"
       job_suffix: "konduit_job"
       python_config_type: "CONDA"
       python_path: "1"
@@ -37,6 +37,18 @@ pipeline:
       python_outputs: {}
       return_all_inputs: false
       setup_and_run: false
+  - '@type': "CLASSIFIER_OUTPUT"
+    input_name: "predictions"
+    label_name: "bmi_class"
+    labels:
+      - UnderWeight
+      - Normal_Range
+      - OverWeight
+      - Obese_ClassI
+      - Obese_ClassII
+      - Obese_ClassIII
+      - Obese_ClassIV
+      - None
 port: 9009
 protocol: "HTTP"
 

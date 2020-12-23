@@ -38,5 +38,6 @@ services:
        - "9009:9009"
      volumes:
        - ./demos:/root/konduit/demos
+       - ./konduit.jar:/root/konduit/konduit.jar
      depends_on:
        - prometheus
