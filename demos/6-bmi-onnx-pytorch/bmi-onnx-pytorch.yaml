@@ -1,7 +1,5 @@
 ---
 host: "0.0.0.0"
-custom_endpoints:
-  - "ai.konduit.serving.CustomEndpoints"
 pipeline:
   steps:
   - '@type': "PYTHON"
@@ -51,4 +49,7 @@ pipeline:
       - None
 port: 9009
 protocol: "HTTP"
+static_content_index_page: "/index.html"
+static_content_root: "web-app"
+static_content_url: "/web-app/*"
 
