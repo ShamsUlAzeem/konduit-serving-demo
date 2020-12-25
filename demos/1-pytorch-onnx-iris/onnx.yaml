@@ -1,6 +1,4 @@
 ---
-custom_endpoints:
-  - "ai.konduit.IrisEndPoints"
 host: "localhost"
 port: 0
 protocol: "HTTP"
@@ -12,3 +10,9 @@ pipeline:
     - "input"
     outputNames:
     - "output"
+  - '@type': "CLASSIFIER_OUTPUT"
+    input_name: "output"
+    labels:
+      - Setosa
+      - Versicolor
+      - Virginica
