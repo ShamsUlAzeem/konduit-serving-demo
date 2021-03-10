@@ -2,7 +2,7 @@
 set -e
 
 CHIP=$(echo "${1:-CPU}" | awk '{ print toupper($0)}')
-BUILD_BRANCH=${BUILD_BRANCH:-sa/completing-metrics}
+BUILD_BRANCH=${BUILD_BRANCH:-master}
 
 if [[ $* == *--rebuild-jar* ]]
 then
