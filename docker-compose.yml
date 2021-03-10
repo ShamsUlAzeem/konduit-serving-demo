@@ -30,7 +30,7 @@ services:
       - "9090:9090"
 
   konduit-demo:
-     image: konduitai/demo:1.1
+     image: konduit/konduit-serving-demo:cpu
      runtime: ${RUNTIME:-runc}
      ports:
        - "8889:8889"

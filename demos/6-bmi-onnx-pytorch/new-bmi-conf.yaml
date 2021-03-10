@@ -1,0 +1,32 @@
+---
+host: "0.0.0.0"
+pipeline:
+  steps:
+  - '@type': "PYTHON"
+    python_config:
+      python_code_path: "new_run_script.py"
+      io_inputs:
+        predictions:
+          python_type: "list"
+          secondary_type: "DOUBLE"
+          type: "LIST"
+      io_outputs:
+        predictions:
+          python_type: "numpy.ndarray"
+          secondary_type: "DOUBLE"
+          type: "NDARRAY"
+  - '@type': "CLASSIFIER_OUTPUT"
+    input_name: "predictions"
+    label_name: "bmi_class"
+    labels:
+      - UnderWeight
+      - Normal_Range
+      - OverWeight
+      - Obese_ClassI
+      - Obese_ClassII
+      - Obese_ClassIII
+      - Obese_ClassIV
+      - None
+port: 9009
+protocol: "HTTP"
+

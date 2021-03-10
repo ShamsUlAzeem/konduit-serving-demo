@@ -11,8 +11,8 @@ out_height = 240
 fps = 1
 camera_index = 0
 
-url = 'https://202.165.22.122/infer'
-# url = 'http://localhost:8082/infer'
+url = 'https://202.165.22.122/predict'
+# url = 'http://localhost:9009/predict'
 
 cap = cv2.VideoCapture(camera_index)
 cap.set(cv2.CAP_PROP_FRAME_WIDTH, width)  # set Width
