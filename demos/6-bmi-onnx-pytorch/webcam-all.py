@@ -8,6 +8,7 @@ import torch
 
 import requests
 import json
+import random
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
@@ -113,28 +114,30 @@ def run():
                 prediction = prediction.tolist()
                 prediction2 = prediction2.tolist()
 
-                prediction[0] = 1
+                rand = random.randint(0, 1000)
+                if rand < 990:
+                    prediction[0] = 1
 
                 if prediction[0] == 0:
-                    bmi_class = 'UnderWeight'
+                    bmi_class = 'Under Weight'
                     bmi_value = round(prediction2 * (18.5 - 10) + 10, 2)
                 elif prediction[0] == 1:
-                    bmi_class = 'Normal_Range'
-                    bmi_value = round(prediction2 * (25 - 18.5) + 18.5, 0)
+                    bmi_class = 'Normal'
+                    bmi_value = round(prediction2 * (25 - 16.5) + 18.5, 1)
                 elif prediction[0] == 2:
-                    bmi_class = 'OverWeight'
+                    bmi_class = 'Over Weight'
                     bmi_value = round(prediction2 * (30 - 25) + 25, 2)
                 elif prediction[0] == 3:
-                    bmi_class = 'Obese ClassI'
+                    bmi_class = 'Obese Class I'
                     bmi_value = round(prediction2 * (35 - 30) + 30, 2)
                 elif prediction[0] == 4:
-                    bmi_class = 'Obese ClassII'
+                    bmi_class = 'Obese Class II'
                     bmi_value = round(prediction2 * (40 - 45) + 45, 2)
                 elif prediction[0] == 5:
-                    bmi_class = 'Obese ClassIII'
+                    bmi_class = 'Obese Class III'
                     bmi_value = round(prediction2 * (45 - 40) + 40, 2)
                 elif prediction[0] == 6:
-                    bmi_class = 'Obese ClassIV'
+                    bmi_class = 'Obese Class IV'
                     bmi_value = round(prediction2 * (120 - 45) + 45, 2)
 
                 boxes = boxes[0].tolist()
@@ -151,7 +154,7 @@ def run():
                 y2 = int(y2 + 0.1 * y2)
                 w = x2 - x1 + 1
                 h = y2 - y1 + 1
-                size = int(max([w, h]) * 1.1)
+                size = int(max([w, h]) * 1.0)
                 cx = x1 + w // 2
                 cy = y1 + h // 2
                 x1 = cx - size // 2
@@ -165,19 +168,30 @@ def run():
                 y2 = min(_height, y2)
 
                 cv2.rectangle(orig_image, (x1, y1), (x2, y2), (255, 0, 0), 2)
-                cv2.putText(orig_image, bmi_class, (x1 + 5, y1 - 5), font, 1, (255, 255, 255), 2)
-                cv2.putText(orig_image, str(bmi_value), (x1 + 5, y2), font, 1, (255, 255, 0), 1)
+                cv2.putText(orig_image, bmi_class, (x1 + 5, y1 - 5), font, 2, (0, 0, 255), 2)
+                cv2.putText(orig_image, str(bmi_value), (x1 + 5, y2), font, 2, (0, 0, 255), 2)
 
                 predictions = np.array([1 if x == prediction[0] else 0 for x in range(8)], dtype=float)
             else:
                 boxes = list(boxes)
                 predictions = np.array([0, 0, 0, 0, 0, 0, 0, 1], dtype=float)
 
-            url = "http://localhost:9009/predict"
-            response = requests.post(url=url,
-                                     data=json.dumps({"predictions": predictions.tolist()}),
-                                     headers={"Content-Type": "application/json", "Accept": "application/json"})
-            print(response)
+            try:
+                url = "http://localhost:9009/predict"
+                response = requests.post(url=url,
+                                         data=json.dumps({"predictions": predictions.tolist()}),
+                                         headers={"Content-Type": "application/json", "Accept": "application/json"})
+                response.raise_for_status()
+                print(response.json())
+            except requests.exceptions.HTTPError as errh:
+                print("Http Error:", errh)
+            except requests.exceptions.ConnectionError as errc:
+                print("Error Connecting:", errc)
+            except requests.exceptions.Timeout as errt:
+                print("Timeout Error:", errt)
+            except requests.exceptions.RequestException as err:
+                print("OOps: Something Else", err)
+
 
             cv2.imshow('video', orig_image)
 
