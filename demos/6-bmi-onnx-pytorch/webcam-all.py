@@ -38,6 +38,9 @@ font = cv2.FONT_HERSHEY_DUPLEX
 
 def run():
     i = -1
+
+    none = False
+
     while True:
         i += 1
         ret, orig_image = cap.read()
@@ -98,7 +101,6 @@ def run():
                 cropped_face = np.asarray(cv2.cvtColor(cropped_face, cv2.COLOR_BGR2RGB))
                 cropped_face = np.transpose(cropped_face, [2, 0, 1])
 
-                cv2.rectangle(image, (x1, y1), (x2, y2), (255, 0, 0), 2)
                 roi_color = image[x1:x1 + x2, y1:y1 + y2]
 
                 cropped_face = (np.asarray(cropped_face, dtype='float32')) / 255.0
@@ -122,7 +124,7 @@ def run():
                     bmi_class = 'Under Weight'
                     bmi_value = round(prediction2 * (18.5 - 10) + 10, 2)
                 elif prediction[0] == 1:
-                    bmi_class = 'Normal'
+                    bmi_class = 'Normal Range'
                     bmi_value = round(prediction2 * (25 - 16.5) + 18.5, 1)
                 elif prediction[0] == 2:
                     bmi_class = 'Over Weight'
@@ -168,30 +170,32 @@ def run():
                 y2 = min(_height, y2)
 
                 cv2.rectangle(orig_image, (x1, y1), (x2, y2), (255, 0, 0), 2)
-                cv2.putText(orig_image, bmi_class, (x1 + 5, y1 - 5), font, 2, (0, 0, 255), 2)
-                cv2.putText(orig_image, str(bmi_value), (x1 + 5, y2), font, 2, (0, 0, 255), 2)
+                cv2.putText(orig_image, bmi_class, (x1 + 5, y1 - 5), font, 1.5, (0, 0, 255), 2)
+                cv2.putText(orig_image, str(bmi_value), (x1 + 5, y2), font, 1.5, (0, 0, 255), 2)
 
                 predictions = np.array([1 if x == prediction[0] else 0 for x in range(8)], dtype=float)
+                none = False
             else:
                 boxes = list(boxes)
                 predictions = np.array([0, 0, 0, 0, 0, 0, 0, 1], dtype=float)
+                none = True
 
-            try:
-                url = "http://localhost:9009/predict"
-                response = requests.post(url=url,
-                                         data=json.dumps({"predictions": predictions.tolist()}),
-                                         headers={"Content-Type": "application/json", "Accept": "application/json"})
-                response.raise_for_status()
-                print(response.json())
-            except requests.exceptions.HTTPError as errh:
-                print("Http Error:", errh)
-            except requests.exceptions.ConnectionError as errc:
-                print("Error Connecting:", errc)
-            except requests.exceptions.Timeout as errt:
-                print("Timeout Error:", errt)
-            except requests.exceptions.RequestException as err:
-                print("OOps: Something Else", err)
-
+            if not none:
+                try:
+                    url = "http://localhost:9009/predict"
+                    response = requests.post(url=url,
+                                             data=json.dumps({"predictions": predictions.tolist()}),
+                                             headers={"Content-Type": "application/json", "Accept": "application/json"})
+                    response.raise_for_status()
+                    print(response.json())
+                except requests.exceptions.HTTPError as errh:
+                    print("Http Error:", errh)
+                except requests.exceptions.ConnectionError as errc:
+                    print("Error Connecting:", errc)
+                except requests.exceptions.Timeout as errt:
+                    print("Timeout Error:", errt)
+                except requests.exceptions.RequestException as err:
+                    print("OOps: Something Else", err)
 
             cv2.imshow('video', orig_image)
 
